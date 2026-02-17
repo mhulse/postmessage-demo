@@ -130,7 +130,9 @@
 
     window.addEventListener('message', (event) => {
       // In production, validate event.origin here
-      // e.g., if (event.origin !== 'https://expected-origin.com') return;
+      // This iframe is hosted on a different origin (GitHub Gist), so the parent
+      // must specify the correct target origin when calling postMessage
+      // e.g., if (event.origin !== 'https://mhulse.github.io') return;
 
       const message = event.data;
 
