@@ -8,28 +8,29 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <div class="container">
+  <div class="app">
     <div class="panel">
       <h1>Parent Page</h1>
       
-      <div class="control-group">
-        <label for="item-label">Item:</label>
+      <div class="form__group">
+        <label for="item-label" class="form__label">Item:</label>
         <input 
           type="text" 
           id="item-label" 
+          class="form__input"
           placeholder="Enter item name"
         >
       </div>
 
-      <button id="add-btn">Add Item</button>
+      <button id="add-btn" class="form__button">Add Item</button>
 
       <div class="items-list" id="items-container">
-        <div class="item-group">
-          <h3>Items</h3>
+        <div class="items__group">
+          <h3 class="items__group-title">Items</h3>
         </div>
       </div>
 
-      <div class="payload-section">
+      <div class="payload" id="payload-section">
         <h2>Sending:</h2>
         <pre id="payload-display"></pre>
       </div>
@@ -37,7 +38,7 @@
 
     <div class="panel">
       <h1>Preview (Iframe)</h1>
-      <iframe id="preview-frame" src="preview.html"></iframe>
+      <iframe id="preview-frame" class="iframe" src="preview.html"></iframe>
     </div>
   </div>
 
@@ -74,7 +75,7 @@
     }
 
     function renderItems() {
-      const itemGroup = itemsContainer.querySelector('.item-group');
+      const itemGroup = itemsContainer.querySelector('.items__group');
       itemGroup.querySelectorAll('.item').forEach(el => el.remove());
 
       state.items.forEach(item => {
@@ -87,8 +88,8 @@
       const div = document.createElement('div');
       div.className = 'item';
       div.innerHTML = `
-        <span>${item.label}</span>
-        <button data-id="${item.id}">Remove</button>
+        <span class="item__label">${item.label}</span>
+        <button class="item__button" data-id="${item.id}">Remove</button>
       `;
       
       div.querySelector('button').addEventListener('click', (e) => {

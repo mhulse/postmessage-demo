@@ -19,10 +19,9 @@
       Messages received: <span id="message-count">0</span>
     </div>
 
-    <h2>Items</h2>
-    <div id="items-list"></div>
+    <div class="items" id="items-list"></div>
 
-    <div class="payload-section">
+    <div class="payload">
       <h2>Received Payload:</h2>
       <pre id="payload-display"></pre>
     </div>
@@ -64,13 +63,13 @@
       itemsListDiv.innerHTML = '';
 
       if (!items || items.length === 0) {
-        itemsListDiv.innerHTML = '<div class="empty-message">No items</div>';
+        itemsListDiv.innerHTML = '<div class="empty">No items</div>';
         return;
       }
 
       items.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'item-card';
         card.textContent = item.label;
         itemsListDiv.appendChild(card);
       });
