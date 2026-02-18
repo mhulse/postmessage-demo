@@ -56,8 +56,7 @@
 
     function sendMessage() {
       const message = {
-        type: 'CONFIG_UPDATE',
-        payload: state
+        items: state.items
       };
       
       // SECURITY: Specify the target origin in production
@@ -126,8 +125,7 @@
 
     // Initial payload display
     updatePayloadDisplay({
-      type: 'CONFIG_UPDATE',
-      payload: { items: [] }
+      items: []
     });
   </script>
 </body>

@@ -43,7 +43,7 @@
       
       const message = event.data;
 
-      if (message.type === 'CONFIG_UPDATE') {
+      if (message && Array.isArray(message.items)) {
         messageCount++;
         messageCountSpan.textContent = messageCount;
 
@@ -52,10 +52,10 @@
         contentDiv.style.display = 'block';
 
         // Render items
-        renderItems(message.payload.items);
+        renderItems(message.items);
 
         // Display payload
-        payloadDisplay.textContent = JSON.stringify(message.payload, null, 2);
+        payloadDisplay.textContent = JSON.stringify(message, null, 2);
       }
     });
 
