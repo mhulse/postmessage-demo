@@ -16,6 +16,17 @@ Changing an iframe's `src` (even just query params) causes the iframe to fully r
 2. When the user adds/removes items, `index.html` calls `iframe.contentWindow.postMessage(data, '*')`
 3. `preview.html` listens via `window.addEventListener('message', ...)` and re-renders
 
+## Browser Support
+
+`postMessage` is supported on all modern browsers:
+
+- ✅ **Last 2 versions of Chrome, Firefox, Safari, Edge**
+- ✅ iOS Safari
+- ✅ Chrome Mobile
+- ✅ IE 8+
+
+See [caniuse: postMessage](https://caniuse.com/mdn-api_window_postmessage) for detailed compatibility info.
+
 ## Production considerations
 
 - **Origin validation**: The sender should specify the target origin instead of `'*'`. The receiver should check `event.origin`.
