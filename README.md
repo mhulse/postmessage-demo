@@ -4,11 +4,11 @@ Live demo: https://mhulse.github.io/postmessage-demo/
 
 ## What this demonstrates
 
-A parent page communicating with an embedded iframe using the browser's `postMessage` API. The parent sends configuration updates and the iframe renders them instantly without reloading.
+A parent page communicating with an embedded iframe using the browser’s `postMessage` API. The parent sends configuration updates and the iframe renders them instantly without reloading.
 
 ## Why postMessage instead of URL params?
 
-Changing an iframe's `src` (even just query params) causes the iframe to fully reload, destroying any internal state and causing visible flicker. `postMessage` delivers data directly to the iframe's JavaScript context, so it updates instantly with no reload.
+Changing an iframe’s `src` (even just query params) causes the iframe to fully reload, destroying any internal state and causing visible flicker. `postMessage` delivers data directly to the iframe’s JavaScript context, so it updates instantly with no reload.
 
 ## How it works
 
