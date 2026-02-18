@@ -40,13 +40,12 @@
 
     // receive message from parent
     window.addEventListener('message', (event) => {
-      // SECURITY: validate the message origin in production
-      // uncomment and replace with your parent’s actual origin
-      // if (event.origin !== 'https://your-parent-domain.com') return;
+      // SECURITY: validate the message origin to match the parent’s domain
+      if (event.origin !== 'https://mhulse.github.io') return;
 
       const data = event.data;
       
-      if (data && Array.isArray(data.items)) {
+      if (data && data.type === 'PREVIEW' && data.jwt && Array.isArray(data.items)) {
         handleMessage(data);
       }
     });

@@ -91,16 +91,17 @@
         itemGroup.appendChild(div);
       });
 
-      payloadDisplay.textContent = JSON.stringify({ items: state.items }, null, 2);
+      payloadDisplay.textContent = JSON.stringify({ type: 'PREVIEW', items: state.items }, null, 2);
     }
 
     function sendMessage() {
-      // SECURITY: Specify the target origin in production
-      // uncomment and replace with your iframe’s actual origin
-      // const targetOrigin = 'https://your-iframe-domain.com';
-      const targetOrigin = '*'; // NEVER use '*' in production
+      // SECURITY: specify the target origin to match the iframe’s domain
+      const targetOrigin = 'https://mhulse.github.io';
 
-      previewFrame.contentWindow.postMessage({ items: state.items }, targetOrigin);
+      // demo token
+      const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJpYXQiOjE2MDk0NjAwMDB9.demo-signature';
+      
+      previewFrame.contentWindow.postMessage({ type: 'PREVIEW', jwt, items: state.items }, targetOrigin);
     }
 
     // events
