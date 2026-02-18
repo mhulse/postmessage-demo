@@ -37,36 +37,6 @@
     h1 {
       font-size: 18px;
       margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .mode-toggle {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      font-size: 12px;
-    }
-    .mode-toggle button {
-      padding: 6px 10px;
-      font-size: 11px;
-      border: 1px solid #ddd;
-      background: white;
-      cursor: pointer;
-      border-radius: 4px;
-      color: #333;
-    }
-    .mode-toggle button.active {
-      background: #0066cc;
-      color: white;
-      border-color: #0066cc;
-    }
-    .mode-toggle button:hover {
-      background: #f0f0f0;
-    }
-    .mode-toggle button.active:hover {
-      background: #0052a3;
     }
     h2 {
       font-size: 14px;
@@ -184,14 +154,7 @@
 <body>
   <div class="container">
     <div class="panel">
-      <h1>
-        Configuration Controls
-        <div class="mode-toggle">
-          <span>Mode:</span>
-          <button id="local-btn" class="active">Local</button>
-          <button id="gist-btn">Gist</button>
-        </div>
-      </h1>
+      <h1>Configuration Controls</h1>
       
       <div class="control-group">
         <label for="item-label">Item Label:</label>
@@ -247,43 +210,12 @@
     const secondaryGroup = document.getElementById('secondary-group');
     const payloadDisplay = document.getElementById('payload-display');
     const previewFrame = document.getElementById('preview-frame');
-    const localBtn = document.getElementById('local-btn');
-    const gistBtn = document.getElementById('gist-btn');
-
-    // Gist configuration
-    const GIST_ID = '50a2146d20e08a701ff066b3e4917450';
-    const LOCAL_URL = 'preview.html';
-    const GIST_RAW_URL = `https://gist.githubusercontent.com/mhulse/${GIST_ID}/raw/HEAD/preview.html`;
 
     let nextId = 1;
-    let currentMode = 'local';
     const items = {
       primary: [],
       secondary: []
     };
-
-    // Mode toggle
-    localBtn.addEventListener('click', () => {
-      currentMode = 'local';
-      previewFrame.src = LOCAL_URL;
-      localBtn.classList.add('active');
-      gistBtn.classList.remove('active');
-      // Reset message count when switching
-      items.primary = [];
-      items.secondary = [];
-      renderItems();
-    });
-
-    gistBtn.addEventListener('click', () => {
-      currentMode = 'gist';
-      previewFrame.src = GIST_RAW_URL;
-      gistBtn.classList.add('active');
-      localBtn.classList.remove('active');
-      // Reset message count when switching
-      items.primary = [];
-      items.secondary = [];
-      renderItems();
-    });
 
     function getSelectedType() {
       return document.querySelector('input[name="item-type"]:checked').value;
@@ -296,13 +228,7 @@
       };
       
       // In production, replace '*' with the specific target origin
-      // For local: use '*' or window.location.origin
-      // For Gist: use 'https://gist.githubusercontent.com'
-      const targetOrigin = currentMode === 'gist' 
-        ? 'https://gist.githubusercontent.com' 
-        : '*';
-      
-      previewFrame.contentWindow.postMessage(message, targetOrigin);
+      previewFrame.contentWindow.postMessage(message, '*');
       
       updatePayloadDisplay(message);
     }
