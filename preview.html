@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- postMessage Iframe Demo Preview Component -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>postMessage Iframe Demo — Preview</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>postMessage Iframe Demo — Preview</title>
@@ -130,10 +132,8 @@
     let messageCount = 0;
 
     window.addEventListener('message', (event) => {
-      // In production, validate event.origin here
-      // This iframe is hosted on a different origin (GitHub Gist), so the parent
-      // must specify the correct target origin when calling postMessage
-      // e.g., if (event.origin !== 'https://mhulse.github.io') return;
+      // In production, validate event.origin to ensure messages come from trusted sources
+      // e.g., if (event.origin !== 'https://expected-domain.com') return;
 
       const message = event.data;
 
