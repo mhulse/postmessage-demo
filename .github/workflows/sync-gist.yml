@@ -14,27 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Read preview.html
-        id: read-file
-        run: |
-          content=$(cat preview.html)
-          # Escape newlines and quotes for JSON
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          echo "content=$content" >> $GITHUB_OUTPUT
-
       - name: Update Gist
         run: |
+          CONTENT=$(cat preview.html)
+          ESCAPED=$(echo "$CONTENT" | jq -Rs .)
           curl -X PATCH \
             -H "Authorization: token ${{ secrets.GIST_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/gists/50a2146d20e08a701ff066b3e4917450 \
-            -d '{
-              "description": "postMessage Iframe Demo - Preview Component",
-              "files": {
-                "preview.html": {
-                  "content": "'"$(cat preview.html | jq -Rs .)"'"
-                }
-              }
-            }'
+            -d "{\"description\": \"postMessage Iframe Demo - Preview Component\", \"files\": {\"preview.html\": {\"content\": $ESCAPED}}}"
