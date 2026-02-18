@@ -29,8 +29,6 @@ Messages are simple and flat:
 }
 ```
 
-If you need to evolve the format later (add fields, change structure), add a `version` field like an API (`/api/v1`, `/api/v2`) to handle multiple formats gracefully.
-
 ## Browser Support
 
 `postMessage` is supported on all modern browsers:
