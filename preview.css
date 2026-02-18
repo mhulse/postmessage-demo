@@ -24,17 +24,23 @@ body {
 
 .items {
   margin-bottom: var(--space-xl);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-md);
 }
 
 .item-card {
-  display: inline-block;
-  background: var(--color-primary);
-  color: white;
-  padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   font-size: var(--font-size-md);
-  margin-right: var(--space-sm);
-  margin-bottom: var(--space-sm);
+  min-height: 100px;
+  padding: var(--space-md);
+  text-align: center;
 }
 
 .empty {
@@ -47,6 +53,9 @@ body {
 }
 
 .payload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
   border-top: 1px solid var(--color-border-light);
   padding-top: var(--space-lg);
   margin-top: var(--space-xl);
