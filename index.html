@@ -43,18 +43,18 @@
   </div>
 
   <script>
-    // DOM
+    // dom
     const itemInput = document.getElementById('item-label');
     const addBtn = document.getElementById('add-btn');
     const itemsContainer = document.getElementById('items-container');
     const payloadDisplay = document.getElementById('payload-display');
     const previewFrame = document.getElementById('preview-frame');
 
-    // State
+    // state
     let nextId = 1;
     const state = { items: [] };
 
-    // Actions
+    // actions
     function addItem() {
       const label = itemInput.value.trim();
       if (!label) return;
@@ -70,7 +70,7 @@
       render();
     }
 
-    // Render
+    // render
     function render() {
       renderUI();
       sendMessage();
@@ -96,20 +96,20 @@
 
     function sendMessage() {
       // SECURITY: Specify the target origin in production
-      // Uncomment and replace with your iframe's actual origin
+      // uncomment and replace with your iframe’s actual origin
       // const targetOrigin = 'https://your-iframe-domain.com';
-      const targetOrigin = '*'; // For demo only; NEVER use '*' in production
+      const targetOrigin = '*'; // NEVER use '*' in production
 
       previewFrame.contentWindow.postMessage({ items: state.items }, targetOrigin);
     }
 
-    // Events
+    // events
     addBtn.addEventListener('click', addItem);
     itemInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') addItem();
     });
 
-    // Initial display
+    // initial display
     render();
   </script>
 </body>

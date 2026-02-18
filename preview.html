@@ -11,7 +11,7 @@
   <h1>Iframe Content</h1>
   
   <div class="waiting" id="waiting">
-    Waiting for configuration...
+    Waiting for configuration …
   </div>
 
   <div class="content" id="content">
@@ -28,20 +28,20 @@
   </div>
 
   <script>
-    // DOM
+    // dom
     const waitingEl = document.getElementById('waiting');
     const contentEl = document.getElementById('content');
     const messageCountEl = document.getElementById('message-count');
     const itemsListEl = document.getElementById('items-list');
     const payloadEl = document.getElementById('payload-display');
 
-    // State
+    // state
     let messageCount = 0;
 
-    // Receive message from parent
+    // receive message from parent
     window.addEventListener('message', (event) => {
-      // SECURITY: Validate the message origin in production
-      // Uncomment and replace with your parent's actual origin
+      // SECURITY: validate the message origin in production
+      // uncomment and replace with your parent’s actual origin
       // if (event.origin !== 'https://your-parent-domain.com') return;
 
       if (event.data && Array.isArray(event.data.items)) {
@@ -49,19 +49,19 @@
       }
     });
 
-    // Handle incoming message
+    // handle incoming message
     function handleMessage(data) {
       messageCount++;
       messageCountEl.textContent = messageCount;
 
-      // Show content, hide waiting state
+      // show content, hide waiting state
       waitingEl.style.display = 'none';
       contentEl.style.display = 'block';
 
       render(data);
     }
 
-    // Render
+    // render
     function render(data) {
       renderItems(data.items);
       renderPayload(data);
