@@ -44,8 +44,11 @@
       // uncomment and replace with your parent’s actual origin
       // if (event.origin !== 'https://your-parent-domain.com') return;
 
-      if (event.data && Array.isArray(event.data.items)) {
-        handleMessage(event.data);
+      const data = event.data;
+      
+      // Handle versioned messages
+      if (data && data.version === 1 && Array.isArray(data.items)) {
+        handleMessage(data);
       }
     });
 
