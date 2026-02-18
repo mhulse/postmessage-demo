@@ -46,8 +46,7 @@
 
       const data = event.data;
       
-      // Handle versioned messages
-      if (data && data.version === 1 && Array.isArray(data.items)) {
+      if (data && Array.isArray(data.items)) {
         handleMessage(data);
       }
     });

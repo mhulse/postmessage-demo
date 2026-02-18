@@ -18,11 +18,10 @@ Changing an iframe's `src` (even just query params) causes the iframe to fully r
 
 ### Message Format
 
-Messages use versioning to allow independent evolution of both sides:
+Messages are simple and flat:
 
 ```json
 {
-  "version": 1,
   "items": [
     { "id": 1, "label": "Item One" },
     { "id": 2, "label": "Item Two" }
@@ -30,9 +29,7 @@ Messages use versioning to allow independent evolution of both sides:
 }
 ```
 
-**Version 1** includes: `version`, `items`
-
-In the future, Version 2 could add new fields (e.g., `metadata`) without breaking existing receivers that check the version number.
+If you need to evolve the format later (add fields, change structure), add a `version` field like an API (`/api/v1`, `/api/v2`) to handle multiple formats gracefully.
 
 ## Browser Support
 
@@ -48,4 +45,4 @@ See [caniuse: postMessage](https://caniuse.com/mdn-api_window_postmessage) for d
 ## Production considerations
 
 - **Origin validation**: The sender should specify the target origin instead of `'*'`. The receiver should check `event.origin`.
-- **Message versioning**: Already demonstrated in the code. Define versions so both sides can evolve independently.
+- **Message versioning**: If your API evolves, add a `version` field so both sides can handle multiple formats independently.

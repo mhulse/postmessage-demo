@@ -91,7 +91,7 @@
         itemGroup.appendChild(div);
       });
 
-      payloadDisplay.textContent = JSON.stringify({ version: 1, items: state.items }, null, 2);
+      payloadDisplay.textContent = JSON.stringify({ items: state.items }, null, 2);
     }
 
     function sendMessage() {
@@ -100,7 +100,7 @@
       // const targetOrigin = 'https://your-iframe-domain.com';
       const targetOrigin = '*'; // NEVER use '*' in production
 
-      previewFrame.contentWindow.postMessage({ version: 1, items: state.items }, targetOrigin);
+      previewFrame.contentWindow.postMessage({ items: state.items }, targetOrigin);
     }
 
     // events
