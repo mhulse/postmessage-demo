@@ -28,42 +28,50 @@
   </div>
 
   <script>
-    const contentDiv = document.getElementById('content');
-    const waitingDiv = document.getElementById('waiting');
-    const messageCountSpan = document.getElementById('message-count');
-    const itemsListDiv = document.getElementById('items-list');
-    const payloadDisplay = document.getElementById('payload-display');
+    // DOM
+    const waitingEl = document.getElementById('waiting');
+    const contentEl = document.getElementById('content');
+    const messageCountEl = document.getElementById('message-count');
+    const itemsListEl = document.getElementById('items-list');
+    const payloadEl = document.getElementById('payload-display');
 
+    // State
     let messageCount = 0;
 
+    // Receive message from parent
     window.addEventListener('message', (event) => {
       // SECURITY: Validate the message origin in production
       // Uncomment and replace with your parent's actual origin
       // if (event.origin !== 'https://your-parent-domain.com') return;
-      
-      const message = event.data;
 
-      if (message && Array.isArray(message.items)) {
-        messageCount++;
-        messageCountSpan.textContent = messageCount;
-
-        // Show content, hide waiting message
-        waitingDiv.style.display = 'none';
-        contentDiv.style.display = 'block';
-
-        // Render items
-        renderItems(message.items);
-
-        // Display payload
-        payloadDisplay.textContent = JSON.stringify(message, null, 2);
+      if (event.data && Array.isArray(event.data.items)) {
+        handleMessage(event.data);
       }
     });
 
-    function renderItems(items) {
-      itemsListDiv.innerHTML = '';
+    // Handle incoming message
+    function handleMessage(data) {
+      messageCount++;
+      messageCountEl.textContent = messageCount;
 
-      if (!items || items.length === 0) {
-        itemsListDiv.innerHTML = '<div class="empty">No items</div>';
+      // Show content, hide waiting state
+      waitingEl.style.display = 'none';
+      contentEl.style.display = 'block';
+
+      render(data);
+    }
+
+    // Render
+    function render(data) {
+      renderItems(data.items);
+      renderPayload(data);
+    }
+
+    function renderItems(items) {
+      itemsListEl.innerHTML = '';
+
+      if (items.length === 0) {
+        itemsListEl.innerHTML = '<div class="empty">No items</div>';
         return;
       }
 
@@ -71,8 +79,12 @@
         const card = document.createElement('div');
         card.className = 'item-card';
         card.textContent = item.label;
-        itemsListDiv.appendChild(card);
+        itemsListEl.appendChild(card);
       });
+    }
+
+    function renderPayload(data) {
+      payloadEl.textContent = JSON.stringify(data, null, 2);
     }
   </script>
 </body>

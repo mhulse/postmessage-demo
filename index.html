@@ -43,90 +43,74 @@
   </div>
 
   <script>
-    const itemLabelInput = document.getElementById('item-label');
+    // DOM
+    const itemInput = document.getElementById('item-label');
     const addBtn = document.getElementById('add-btn');
     const itemsContainer = document.getElementById('items-container');
     const payloadDisplay = document.getElementById('payload-display');
     const previewFrame = document.getElementById('preview-frame');
 
+    // State
     let nextId = 1;
-    const state = {
-      items: []
-    };
+    const state = { items: [] };
+
+    // Actions
+    function addItem() {
+      const label = itemInput.value.trim();
+      if (!label) return;
+      
+      state.items.push({ id: nextId++, label });
+      itemInput.value = '';
+      itemInput.focus();
+      render();
+    }
+
+    function deleteItem(id) {
+      state.items = state.items.filter(item => item.id !== id);
+      render();
+    }
+
+    // Render
+    function render() {
+      renderUI();
+      sendMessage();
+    }
+
+    function renderUI() {
+      const itemGroup = itemsContainer.querySelector('.items__group');
+      itemGroup.innerHTML = '<h3 class="items__group-title">Items</h3>';
+
+      state.items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `
+          <span class="item__label">${item.label}</span>
+          <button class="item__button">Remove</button>
+        `;
+        div.querySelector('button').addEventListener('click', () => deleteItem(item.id));
+        itemGroup.appendChild(div);
+      });
+
+      payloadDisplay.textContent = JSON.stringify({ items: state.items }, null, 2);
+    }
 
     function sendMessage() {
-      const message = {
-        items: state.items
-      };
-      
       // SECURITY: Specify the target origin in production
       // Uncomment and replace with your iframe's actual origin
       // const targetOrigin = 'https://your-iframe-domain.com';
       const targetOrigin = '*'; // For demo only; NEVER use '*' in production
-      
-      previewFrame.contentWindow.postMessage(message, targetOrigin);
-      
-      updatePayloadDisplay(message);
+
+      previewFrame.contentWindow.postMessage({ items: state.items }, targetOrigin);
     }
 
-    function updatePayloadDisplay(message) {
-      payloadDisplay.textContent = JSON.stringify(message, null, 2);
-    }
-
-    function renderItems() {
-      const itemGroup = itemsContainer.querySelector('.items__group');
-      itemGroup.querySelectorAll('.item').forEach(el => el.remove());
-
-      state.items.forEach(item => {
-        const itemEl = createItemElement(item);
-        itemGroup.appendChild(itemEl);
-      });
-    }
-
-    function createItemElement(item) {
-      const div = document.createElement('div');
-      div.className = 'item';
-      div.innerHTML = `
-        <span class="item__label">${item.label}</span>
-        <button class="item__button" data-id="${item.id}">Remove</button>
-      `;
-      
-      div.querySelector('button').addEventListener('click', (e) => {
-        const id = parseInt(e.target.dataset.id);
-        state.items = state.items.filter(i => i.id !== id);
-        renderItems();
-        sendMessage();
-      });
-
-      return div;
-    }
-
-    addBtn.addEventListener('click', () => {
-      const label = itemLabelInput.value.trim();
-      if (!label) return;
-
-      state.items.push({
-        id: nextId++,
-        label: label
-      });
-
-      itemLabelInput.value = '';
-      itemLabelInput.focus();
-
-      renderItems();
-      sendMessage();
+    // Events
+    addBtn.addEventListener('click', addItem);
+    itemInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addItem();
     });
 
-    itemLabelInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        addBtn.click();
-      }
-    });
-
-    // Initial payload display
-    updatePayloadDisplay({
-      items: []
-    });
+    // Initial display
+    render();
   </script>
 </body>
 </html>
