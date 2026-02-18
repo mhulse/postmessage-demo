@@ -91,7 +91,7 @@
         itemGroup.appendChild(div);
       });
 
-      payloadDisplay.textContent = JSON.stringify({ type: 'PREVIEW', items: state.items }, null, 2);
+      payloadDisplay.textContent = JSON.stringify({ type: 'PREVIEW', jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJpYXQiOjE2MDk0NjAwMDB9.demo-signature', items: state.items }, null, 2);
     }
 
     function sendMessage() {
