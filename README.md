@@ -46,7 +46,37 @@ The JWT payload (decoded) contains:
   - `iat`: Issued at (timestamp)
   - `items`: Array of items to display (your custom data)
 
-**Why items are in the JWT**: In production, encoding data inside the JWT keeps it secure and tamper-proof. The receiver decodes the JWT to extract the items.
+### Why use a type field?
+
+The `type` field identifies the message purpose, which is essential when:
+- **Multiple message types** exist (e.g., `PREVIEW`, `CONFIG_UPDATE`, `STATUS_CHECK`)
+- **Different handlers** process different message types
+- **Validation** ensures only expected message types are processed
+
+Example with multiple types:
+```javascript
+if (data.type === 'PREVIEW') {
+  // Handle preview data
+} else if (data.type === 'CONFIG_UPDATE') {
+  // Handle config changes
+}
+```
+
+### Why encode data in the JWT?
+
+**Security benefits:**
+1. **Tamper-proof**: The JWT signature ensures data hasn't been modified in transit
+2. **Self-contained**: All necessary data travels in one secure package
+3. **Verification**: The receiver can verify the token's authenticity (signature check)
+
+**How it works:**
+1. Sender encodes data into JWT payload using base64url encoding
+2. JWT is sent via `postMessage` with origin validation
+3. Receiver validates the origin and decodes the JWT to extract data
+
+**Note**: This demo uses a fake signature for illustration. In production, use a proper JWT library and verify signatures server-side or with a shared secret.
+
+## Browser support
 
 `postMessage` is supported on all modern browsers:
 
