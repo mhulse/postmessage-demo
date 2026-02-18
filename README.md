@@ -41,8 +41,3 @@ If you need to evolve the format later (add fields, change structure), add a `ve
 - ✅ IE 8+
 
 See [caniuse: postMessage](https://caniuse.com/mdn-api_window_postmessage) for detailed compatibility info.
-
-## Production considerations
-
-- **Origin validation**: The sender should specify the target origin instead of `'*'`. The receiver should check `event.origin`.
-- **Message versioning**: If your API evolves, add a `version` field so both sides can handle multiple formats independently.
