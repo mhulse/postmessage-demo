@@ -1,16 +1,23 @@
 body {
   background: var(--color-bg);
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
 }
 
 .app {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-xl);
-  height: 100vh;
+  min-height: 100vh;
   padding: var(--space-xl);
-  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .app {
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 .panel {
@@ -21,6 +28,13 @@ body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+}
+
+@media (max-width: 767px) {
+  .panel {
+    padding: var(--space-lg);
+  }
 }
 
 .form__group {
