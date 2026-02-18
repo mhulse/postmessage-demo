@@ -53,6 +53,7 @@
     // state
     let nextId = 1;
     const state = { items: [] };
+    const demoJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJpYXQiOjE2MDk0NjAwMDB9.demo-signature';
 
     // actions
     function addItem() {
@@ -91,17 +92,14 @@
         itemGroup.appendChild(div);
       });
 
-      payloadDisplay.textContent = JSON.stringify({ type: 'PREVIEW', jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJpYXQiOjE2MDk0NjAwMDB9.demo-signature', items: state.items }, null, 2);
+      payloadDisplay.textContent = JSON.stringify({ type: 'PREVIEW', jwt: demoJwt, items: state.items }, null, 2);
     }
 
     function sendMessage() {
       // SECURITY: specify the target origin to match the iframe’s domain
       const targetOrigin = 'https://mhulse.github.io';
-
-      // demo token
-      const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJpYXQiOjE2MDk0NjAwMDB9.demo-signature';
       
-      previewFrame.contentWindow.postMessage({ type: 'PREVIEW', jwt, items: state.items }, targetOrigin);
+      previewFrame.contentWindow.postMessage({ type: 'PREVIEW', jwt: demoJwt, items: state.items }, targetOrigin);
     }
 
     // events
