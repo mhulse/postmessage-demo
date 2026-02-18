@@ -16,19 +16,6 @@ Changing an iframe’s `src` (even just query params) causes the iframe to fully
 2. When the user adds/removes items, `index.html` calls `iframe.contentWindow.postMessage(data, '*')`
 3. `preview.html` listens via `window.addEventListener('message', ...)` and re-renders
 
-### Message Format
-
-Messages are simple and flat:
-
-```json
-{
-  "items": [
-    { "id": 1, "label": "Item One" },
-    { "id": 2, "label": "Item Two" }
-  ]
-}
-```
-
 ## Browser Support
 
 `postMessage` is supported on all modern browsers:
