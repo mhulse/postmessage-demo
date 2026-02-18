@@ -31,8 +31,10 @@
       </div>
 
       <div class="payload" id="payload-section">
-        <h2>Outgoing Payload:</h2>
+        <h2>JWT Payload (before encoding):</h2>
         <pre id="payload-display"></pre>
+        <h2>Encoded Message (sent via postMessage):</h2>
+        <pre id="encoded-display"></pre>
       </div>
     </div>
 
@@ -48,6 +50,7 @@
     const addBtn = document.getElementById('add-btn');
     const itemsContainer = document.getElementById('items-container');
     const payloadDisplay = document.getElementById('payload-display');
+    const encodedDisplay = document.getElementById('encoded-display');
     const previewFrame = document.getElementById('preview-frame');
 
     // state
@@ -107,8 +110,11 @@
         itemGroup.appendChild(div);
       });
 
-      const jwt = createJwt({ sub: 'demo-user', iat: 1609460000, items: state.items });
-      payloadDisplay.textContent = JSON.stringify({ type: 'PREVIEW', jwt }, null, 2);
+      const payload = { sub: 'demo-user', iat: 1609460000, items: state.items };
+      const jwt = createJwt(payload);
+      
+      payloadDisplay.textContent = JSON.stringify(payload, null, 2);
+      encodedDisplay.textContent = JSON.stringify({ type: 'PREVIEW', jwt }, null, 2);
     }
 
     function sendMessage() {

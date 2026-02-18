@@ -22,7 +22,9 @@
     <div class="items" id="items-list"></div>
 
     <div class="payload">
-      <h2>Incoming Payload:</h2>
+      <h2>Incoming Message (encoded):</h2>
+      <pre id="encoded-display"></pre>
+      <h2>JWT Payload (decoded):</h2>
       <pre id="payload-display"></pre>
     </div>
   </div>
@@ -33,6 +35,7 @@
     const contentEl = document.getElementById('content');
     const messageCountEl = document.getElementById('message-count');
     const itemsListEl = document.getElementById('items-list');
+    const encodedEl = document.getElementById('encoded-display');
     const payloadEl = document.getElementById('payload-display');
 
     // state
@@ -106,7 +109,8 @@
     }
 
     function renderPayload(data) {
-      payloadEl.textContent = JSON.stringify(data, null, 2);
+      encodedEl.textContent = JSON.stringify({ type: data.type, jwt: data.jwt }, null, 2);
+      payloadEl.textContent = JSON.stringify(data.payload, null, 2);
     }
   </script>
 </body>
