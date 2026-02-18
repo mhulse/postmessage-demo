@@ -59,10 +59,12 @@
         payload: state
       };
       
-      // SECURITY: In production, specify the target origin instead of '*'
-      // This ensures the message is only sent to your trusted iframe origin
-      // e.g., previewFrame.contentWindow.postMessage(message, 'https://your-iframe-domain.com');
-      previewFrame.contentWindow.postMessage(message, '*');
+      // SECURITY: Specify the target origin in production
+      // Uncomment and replace with your iframe's actual origin
+      // const targetOrigin = 'https://your-iframe-domain.com';
+      const targetOrigin = '*'; // For demo only; NEVER use '*' in production
+      
+      previewFrame.contentWindow.postMessage(message, targetOrigin);
       
       updatePayloadDisplay(message);
     }

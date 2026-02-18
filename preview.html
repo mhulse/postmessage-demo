@@ -38,10 +38,10 @@
     let messageCount = 0;
 
     window.addEventListener('message', (event) => {
-      // SECURITY: In production, always validate event.origin to prevent receiving
-      // messages from untrusted sources. This comparison should match your parent domain.
-      // e.g., if (event.origin !== 'https://your-parent-domain.com') return;
-
+      // SECURITY: Validate the message origin in production
+      // Uncomment and replace with your parent's actual origin
+      // if (event.origin !== 'https://your-parent-domain.com') return;
+      
       const message = event.data;
 
       if (message.type === 'CONFIG_UPDATE') {
