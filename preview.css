@@ -22,14 +22,6 @@ body {
   border-radius: 4px;
 }
 
-h2:first-of-type {
-  margin-top: 0;
-}
-
-.section {
-  margin-bottom: 20px;
-}
-
 .card {
   display: inline-block;
   background: #0066cc;
@@ -39,10 +31,6 @@ h2:first-of-type {
   font-size: 13px;
   margin-right: 8px;
   margin-bottom: 8px;
-}
-
-.section.secondary .card {
-  background: #666;
 }
 
 .empty-message {

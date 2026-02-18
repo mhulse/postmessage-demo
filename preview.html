@@ -3,15 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>postMessage Iframe Demo — Preview</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>postMessage Iframe Demo — Preview</title>
+  <title>postMessage Iframe Demo</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="preview.css">
 </head>
 <body>
-  <h1>Configuration Preview</h1>
+  <h1>Iframe Content</h1>
   
   <div class="waiting" id="waiting">
     Waiting for configuration...
@@ -22,15 +19,8 @@
       Messages received: <span id="message-count">0</span>
     </div>
 
-    <div class="section primary" id="primary-section">
-      <h2>Primary Items</h2>
-      <div id="primary-items"></div>
-    </div>
-
-    <div class="section secondary" id="secondary-section">
-      <h2>Secondary Items</h2>
-      <div id="secondary-items"></div>
-    </div>
+    <h2>Items</h2>
+    <div id="items-list"></div>
 
     <div class="payload-section">
       <h2>Received Payload:</h2>
@@ -42,17 +32,15 @@
     const contentDiv = document.getElementById('content');
     const waitingDiv = document.getElementById('waiting');
     const messageCountSpan = document.getElementById('message-count');
-    const primaryItemsDiv = document.getElementById('primary-items');
-    const secondaryItemsDiv = document.getElementById('secondary-items');
-    const primarySection = document.getElementById('primary-section');
-    const secondarySection = document.getElementById('secondary-section');
+    const itemsListDiv = document.getElementById('items-list');
     const payloadDisplay = document.getElementById('payload-display');
 
     let messageCount = 0;
 
     window.addEventListener('message', (event) => {
-      // In production, validate event.origin to ensure messages come from trusted sources
-      // e.g., if (event.origin !== 'https://expected-domain.com') return;
+      // SECURITY: In production, always validate event.origin to prevent receiving
+      // messages from untrusted sources. This comparison should match your parent domain.
+      // e.g., if (event.origin !== 'https://your-parent-domain.com') return;
 
       const message = event.data;
 
@@ -64,22 +52,19 @@
         waitingDiv.style.display = 'none';
         contentDiv.style.display = 'block';
 
-        // Render primary items
-        renderItems(message.payload.primary, primaryItemsDiv, primarySection);
-
-        // Render secondary items
-        renderItems(message.payload.secondary, secondaryItemsDiv, secondarySection);
+        // Render items
+        renderItems(message.payload.items);
 
         // Display payload
         payloadDisplay.textContent = JSON.stringify(message.payload, null, 2);
       }
     });
 
-    function renderItems(items, container, section) {
-      container.innerHTML = '';
+    function renderItems(items) {
+      itemsListDiv.innerHTML = '';
 
-      if (items.length === 0) {
-        container.innerHTML = '<div class="empty-message">No items</div>';
+      if (!items || items.length === 0) {
+        itemsListDiv.innerHTML = '<div class="empty-message">No items</div>';
         return;
       }
 
@@ -87,7 +72,7 @@
         const card = document.createElement('div');
         card.className = 'card';
         card.textContent = item.label;
-        container.appendChild(card);
+        itemsListDiv.appendChild(card);
       });
     }
   </script>

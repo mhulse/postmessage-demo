@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>postMessage Iframe Demo — Parent</title>
+  <title>postMessage Iframe Demo</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
   <div class="container">
     <div class="panel">
-      <h1>Configuration Controls</h1>
+      <h1>Parent Page</h1>
       
       <div class="control-group">
-        <label for="item-label">Item Label:</label>
+        <label for="item-label">Item:</label>
         <input 
           type="text" 
           id="item-label" 
@@ -21,33 +21,16 @@
         >
       </div>
 
-      <div class="control-group">
-        <label>Item Type:</label>
-        <div class="radio-group">
-          <label>
-            <input type="radio" name="item-type" value="primary" checked>
-            Primary
-          </label>
-          <label>
-            <input type="radio" name="item-type" value="secondary">
-            Secondary
-          </label>
-        </div>
-      </div>
-
       <button id="add-btn">Add Item</button>
 
       <div class="items-list" id="items-container">
-        <div class="item-group" id="primary-group">
-          <h3>Primary</h3>
-        </div>
-        <div class="item-group" id="secondary-group">
-          <h3>Secondary</h3>
+        <div class="item-group">
+          <h3>Items</h3>
         </div>
       </div>
 
       <div class="payload-section">
-        <h2>Payload being sent:</h2>
+        <h2>Sending:</h2>
         <pre id="payload-display"></pre>
       </div>
     </div>
@@ -60,30 +43,25 @@
 
   <script>
     const itemLabelInput = document.getElementById('item-label');
-    const itemTypeRadios = document.querySelectorAll('input[name="item-type"]');
     const addBtn = document.getElementById('add-btn');
-    const primaryGroup = document.getElementById('primary-group');
-    const secondaryGroup = document.getElementById('secondary-group');
+    const itemsContainer = document.getElementById('items-container');
     const payloadDisplay = document.getElementById('payload-display');
     const previewFrame = document.getElementById('preview-frame');
 
     let nextId = 1;
-    const items = {
-      primary: [],
-      secondary: []
+    const state = {
+      items: []
     };
-
-    function getSelectedType() {
-      return document.querySelector('input[name="item-type"]:checked').value;
-    }
 
     function sendMessage() {
       const message = {
         type: 'CONFIG_UPDATE',
-        payload: items
+        payload: state
       };
       
-      // In production, replace '*' with the specific target origin
+      // SECURITY: In production, specify the target origin instead of '*'
+      // This ensures the message is only sent to your trusted iframe origin
+      // e.g., previewFrame.contentWindow.postMessage(message, 'https://your-iframe-domain.com');
       previewFrame.contentWindow.postMessage(message, '*');
       
       updatePayloadDisplay(message);
@@ -94,35 +72,26 @@
     }
 
     function renderItems() {
-      // Clear existing items (keep headers)
-      primaryGroup.querySelectorAll('.item').forEach(el => el.remove());
-      secondaryGroup.querySelectorAll('.item').forEach(el => el.remove());
+      const itemGroup = itemsContainer.querySelector('.item-group');
+      itemGroup.querySelectorAll('.item').forEach(el => el.remove());
 
-      // Render primary items
-      items.primary.forEach(item => {
-        const itemEl = createItemElement(item, 'primary');
-        primaryGroup.appendChild(itemEl);
-      });
-
-      // Render secondary items
-      items.secondary.forEach(item => {
-        const itemEl = createItemElement(item, 'secondary');
-        secondaryGroup.appendChild(itemEl);
+      state.items.forEach(item => {
+        const itemEl = createItemElement(item);
+        itemGroup.appendChild(itemEl);
       });
     }
 
-    function createItemElement(item, type) {
+    function createItemElement(item) {
       const div = document.createElement('div');
       div.className = 'item';
       div.innerHTML = `
         <span>${item.label}</span>
-        <button data-id="${item.id}" data-type="${type}">Remove</button>
+        <button data-id="${item.id}">Remove</button>
       `;
       
       div.querySelector('button').addEventListener('click', (e) => {
         const id = parseInt(e.target.dataset.id);
-        const itemType = e.target.dataset.type;
-        items[itemType] = items[itemType].filter(i => i.id !== id);
+        state.items = state.items.filter(i => i.id !== id);
         renderItems();
         sendMessage();
       });
@@ -134,13 +103,11 @@
       const label = itemLabelInput.value.trim();
       if (!label) return;
 
-      const type = getSelectedType();
-      const newItem = {
+      state.items.push({
         id: nextId++,
         label: label
-      };
+      });
 
-      items[type].push(newItem);
       itemLabelInput.value = '';
       itemLabelInput.focus();
 
@@ -154,10 +121,10 @@
       }
     });
 
-    // Initial empty payload display
+    // Initial payload display
     updatePayloadDisplay({
       type: 'CONFIG_UPDATE',
-      payload: { primary: [], secondary: [] }
+      payload: { items: [] }
     });
   </script>
 </body>

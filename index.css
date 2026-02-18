@@ -35,21 +35,6 @@ label {
   margin-bottom: 16px;
 }
 
-.radio-group {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.radio-group label {
-  margin: 0;
-}
-
-input[type="radio"] {
-  margin-right: 4px;
-  cursor: pointer;
-}
-
 .item {
   display: flex;
   justify-content: space-between;
@@ -81,14 +66,9 @@ input[type="radio"] {
   font-size: 12px;
   font-weight: 600;
   color: #999;
-  margin-top: 12px;
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.item-group:first-child h3 {
-  margin-top: 0;
 }
 
 .payload-section {
