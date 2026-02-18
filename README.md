@@ -4,7 +4,7 @@ Live demo: https://mhulse.github.io/postmessage-demo/
 
 ## What this demonstrates
 
-A parent page communicating with an embedded iframe using the browser's `postMessage` API. The parent sends configuration updates and the iframe renders them in real-time — without reloading.
+A parent page communicating with an embedded iframe using the browser's `postMessage` API. The parent sends configuration updates and the iframe renders them instantly without reloading.
 
 ## Why postMessage instead of URL params?
 
