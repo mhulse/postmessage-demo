@@ -18,10 +18,21 @@ Changing an iframe’s `src` (even just query params) causes the iframe to fully
 
 ## Message format
 
+The message sent via `postMessage`:
+
 ```json
 {
   "type": "PREVIEW",
-  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJpYXQiOjE2MDk0NjAwMDB9.demo-signature",
+  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJpYXQiOjE2MDk0NjAwMDAsIml0ZW1zIjpbLi4uXX0.demo-signature"
+}
+```
+
+The JWT payload (decoded) contains:
+
+```json
+{
+  "sub": "demo-user",
+  "iat": 1609460000,
   "items": [
     { "id": 1, "label": "Item One" },
     { "id": 2, "label": "Item Two" }
@@ -29,9 +40,13 @@ Changing an iframe’s `src` (even just query params) causes the iframe to fully
 }
 ```
 
-- `type`: Message type identifier (e.g., `PREVIEW`)
-- `jwt`: Authentication token
-- `items`: Array of items to display
+- `type`: Message type identifier
+- `jwt`: JSON Web Token containing the data payload
+  - `sub`: Subject (user identifier)
+  - `iat`: Issued at (timestamp)
+  - `items`: Array of items to display (your custom data)
+
+**Why items are in the JWT**: In production, encoding data inside the JWT keeps it secure and tamper-proof. The receiver decodes the JWT to extract the items.
 
 `postMessage` is supported on all modern browsers:
 
